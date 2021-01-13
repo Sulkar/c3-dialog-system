@@ -100,7 +100,8 @@
 				"items": [
 					"NPC1",
 					"Player",
-					"NPC2"
+					"NPC2",
+					"NPC3"
 				],
 				"subfolders": [],
 				"name": "game"

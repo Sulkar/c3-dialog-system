@@ -5,7 +5,7 @@
 			"eventType": "variable",
 			"name": "curDialog",
 			"type": "number",
-			"initialValue": "-1",
+			"initialValue": "0",
 			"comment": "The ID number of the current line of dialogue being displayed",
 			"isStatic": false,
 			"isConstant": false,
@@ -13,13 +13,13 @@
 		},
 		{
 			"eventType": "variable",
-			"name": "curScene",
+			"name": "curNpcID",
 			"type": "number",
 			"initialValue": "0",
-			"comment": "The ID number of the scene from which dialogue is being drawn",
+			"comment": "",
 			"isStatic": false,
 			"isConstant": false,
-			"sid": 237050846164997
+			"sid": 127354936156604
 		},
 		{
 			"eventType": "variable",
@@ -30,16 +30,6 @@
 			"isStatic": false,
 			"isConstant": false,
 			"sid": 457074409100391
-		},
-		{
-			"eventType": "variable",
-			"name": "NextLine",
-			"type": "string",
-			"initialValue": "",
-			"comment": "Used for debugging - shows what the next line of dialogue will be",
-			"isStatic": false,
-			"isConstant": false,
-			"sid": 838002954998180
 		},
 		{
 			"eventType": "variable",
@@ -92,10 +82,10 @@
 								{
 									"id": "request-project-file",
 									"objectClass": "AJAX",
-									"sid": 155088860344906,
+									"sid": 471583710351218,
 									"parameters": {
 										"tag": "\"loaddialogue\"",
-										"file": "dialog1.json"
+										"file": "dialog2.json"
 									}
 								},
 								{
@@ -292,7 +282,17 @@
 											}
 										}
 									],
-									"actions": [],
+									"actions": [
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 292906135924554,
+											"parameters": {
+												"variable": "curNpcID",
+												"value": "fmNPC.NpcID"
+											}
+										}
+									],
 									"sid": 208262087900192,
 									"children": [
 										{
@@ -321,15 +321,6 @@
 													"parameters": {
 														"variable": "GameState",
 														"value": "\"dialog\""
-													}
-												},
-												{
-													"id": "set-eventvar-value",
-													"objectClass": "System",
-													"sid": 624199368288210,
-													"parameters": {
-														"variable": "curScene",
-														"value": "fmNPC.TimesSpokenTo"
 													}
 												}
 											],
@@ -396,20 +387,10 @@
 													}
 												},
 												{
-													"id": "add-to-eventvar",
-													"objectClass": "System",
-													"sid": 220971369609580,
-													"parameters": {
-														"variable": "curDialog",
-														"value": "1"
-													}
-												},
-												{
-													"callFunction": "DisplayDialogue",
+													"callFunction": "DisplayDialog",
 													"sid": 475500209277992,
 													"parameters": [
-														"curDialog",
-														"curScene"
+														"curDialog"
 													]
 												}
 											],
@@ -425,7 +406,7 @@
 														{
 															"id": "compare-eventvar",
 															"objectClass": "System",
-															"sid": 607028668656157,
+															"sid": 985164212553081,
 															"parameters": {
 																"variable": "curDialog",
 																"comparison": 0,
@@ -435,7 +416,7 @@
 													],
 													"actions": [
 														{
-															"callFunction": "EndDialogue",
+															"callFunction": "EndDialog",
 															"sid": 922208216237521,
 															"parameters": [
 																"fmNPC.UID"
@@ -462,25 +443,18 @@
 					"isActiveOnStart": true,
 					"children": [
 						{
-							"functionName": "DisplayDialogue",
+							"functionName": "DisplayDialog",
 							"functionDescription": "",
 							"functionCategory": "",
 							"functionReturnType": "none",
 							"functionIsAsync": false,
 							"functionParameters": [
 								{
-									"name": "dialogueID",
+									"name": "dialogID",
 									"type": "number",
 									"initialValue": "0",
 									"comment": "",
 									"sid": 728615528499880
-								},
-								{
-									"name": "sceneID",
-									"type": "number",
-									"initialValue": "0",
-									"comment": "",
-									"sid": 113648855584519
 								}
 							],
 							"eventType": "function-block",
@@ -504,36 +478,36 @@
 									}
 								},
 								{
-									"id": "set-eventvar-value",
-									"objectClass": "System",
-									"sid": 799635644086919,
-									"parameters": {
-										"variable": "NextLine",
-										"value": "JSON.Get(\"scene.\"& curScene & \".dialogs.\" & (curDialog+1) & \".line\")"
-									}
-								},
-								{
 									"id": "set-text",
 									"objectClass": "txtDialogNPCName",
-									"sid": 329083192695558,
+									"sid": 263903366408132,
 									"parameters": {
-										"text": "JSON.Get(\"scene.\"& curScene & \".dialogs.\" & curDialog & \".char\")"
+										"text": "JSON.Get(curNpcID&\".npcName\")"
 									}
 								},
 								{
 									"id": "typewriter-text",
 									"objectClass": "txtDialog",
-									"sid": 719487298102123,
+									"sid": 507142850362226,
 									"parameters": {
-										"text": "Functions.DialogueFormat(JSON.Get((((\"scene.\" & curScene) & \".dialogs.\") & curDialog) & \".line\"))",
-										"duration": "len(JSON.Get(\"scene.\"& curScene & \".dialogs.\" & curDialog &\".line\"))/32"
+										"text": "Functions.DialogFormat(JSON.Get(curNpcID & \".dialogs.\" & curDialog & \".line\") )",
+										"duration": "len(JSON.Get(curNpcID & \".dialogs.\" & curDialog & \".line\"))/32"
+									}
+								},
+								{
+									"id": "add-to-eventvar",
+									"objectClass": "System",
+									"sid": 378734262543546,
+									"parameters": {
+										"variable": "curDialog",
+										"value": "1"
 									}
 								}
 							],
 							"sid": 550066913387023
 						},
 						{
-							"functionName": "DialogueFormat",
+							"functionName": "DialogFormat",
 							"functionDescription": "",
 							"functionCategory": "",
 							"functionReturnType": "string",
@@ -643,9 +617,9 @@
 										{
 											"id": "for-each",
 											"objectClass": "JSON",
-											"sid": 604270917886052,
+											"sid": 989296407033164,
 											"parameters": {
-												"path": "\"scene.\" & curScene & \".dialogs\""
+												"path": "curNpcID & \".dialogs\""
 											}
 										}
 									],
@@ -669,9 +643,9 @@
 										{
 											"id": "set-function-return-value",
 											"objectClass": "Functions",
-											"sid": 499921932871824,
+											"sid": 460869941905644,
 											"parameters": {
-												"value": "numLines-1"
+												"value": "numLines"
 											}
 										}
 									],
@@ -680,7 +654,7 @@
 							]
 						},
 						{
-							"functionName": "EndDialogue",
+							"functionName": "EndDialog",
 							"functionDescription": "",
 							"functionCategory": "",
 							"functionReturnType": "none",
@@ -736,10 +710,10 @@
 								{
 									"id": "set-eventvar-value",
 									"objectClass": "System",
-									"sid": 550701687712005,
+									"sid": 887565325341529,
 									"parameters": {
 										"variable": "curDialog",
-										"value": "-1"
+										"value": "0"
 									}
 								}
 							],

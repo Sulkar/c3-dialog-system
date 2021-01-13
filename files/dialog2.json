@@ -25,20 +25,15 @@
     "npcName": "Sarah",
     "dialogs": [
       {
-        "line": "This is an example of another scene, some NPCs can have multiple conversations associated with them."
+        "line": "Hallo mein Name ist Sarah. Ich bin gerade 8 Jahre alt geworden und turne gerne am Kletterseil!"
       },
       {
-        "line": "Now I'm going to test some replacing. If it works the next line should make sense."
+        "line": "Ich habe eine Roboterkatze in Lego gebaut und ein Lego Friends Schwimmbad."
       },
       {
-        "line": "Hello there PlayerName."
-      },
-      {
-        "line": "Well, that worked rather nicely."
-      },
-      {
-        "line": "Remember the function I mentioned earlier? (b)DialogueFormat?(/b) Well you can use that to replace bits of text with variables - try changing the global variable called Player Name and see what happens to my dialogue."
+        "line": "Winke Winke Uschlak!"
       }
+      
     ]
   },
   {
@@ -46,13 +41,19 @@
     "npcName": "Simon",
     "dialogs": [
       {
-        "line": "I don't really have much to say."
+        "line": "Bäm bäm ich bin Simon!"
       },
       {
-        "line": "I'm just here to show you that different NPCs can have their own conversations. "
+        "line": "Ich spiele gerne Fortnite und mache fleißig meine Hausaufgaben."
       },
       {
-        "line": "Unlike Jessie over there, I've only got one thing to say."
+        "line": "Am liebsten mag ich, wenn mein Papa mir die Zähne putzt..."
+      },
+      {
+        "line": "Nein !!! natürlich nicht..."
+      },
+      {
+        "line": "Hey! Purple is faking tasks!!!"
       }
     ]
   }

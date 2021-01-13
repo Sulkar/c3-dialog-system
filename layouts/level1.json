@@ -100,7 +100,7 @@
 					"uid": 3,
 					"instanceVariables": {
 						"TimesSpokenTo": 0,
-						"NpcID": 1
+						"NpcID": 2
 					},
 					"behaviors": {
 						"Solid": {
@@ -111,8 +111,8 @@
 						}
 					},
 					"world": {
-						"x": 462,
-						"y": 139,
+						"x": 438,
+						"y": 103,
 						"width": 32,
 						"height": 32,
 						"originX": 0,
@@ -150,8 +150,47 @@
 						}
 					},
 					"world": {
-						"x": 294,
-						"y": 140,
+						"x": 299,
+						"y": 98,
+						"width": 32,
+						"height": 32,
+						"originX": 0,
+						"originY": 0,
+						"color": [
+							1,
+							1,
+							1,
+							1
+						],
+						"angle": 0,
+						"zElevation": 0
+					}
+				},
+				{
+					"type": "NPC3",
+					"properties": {
+						"initially-visible": true,
+						"initial-animation": "Animation 1",
+						"initial-frame": 0,
+						"enable-collisions": true,
+						"live-preview": false
+					},
+					"uid": 13,
+					"instanceVariables": {
+						"TimesSpokenTo": 0,
+						"NpcID": 1
+					},
+					"behaviors": {
+						"Solid": {
+							"properties": {
+								"enabled": true,
+								"tags": ""
+							}
+						}
+					},
+					"world": {
+						"x": 379,
+						"y": 227,
 						"width": 32,
 						"height": 32,
 						"originX": 0,
