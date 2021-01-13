@@ -1,0 +1,31 @@
+{
+	"name": "fmNPC",
+	"plugin-id": "Sprite",
+	"sid": 749903797051828,
+	"instanceVariables": [
+		{
+			"name": "TimesSpokenTo",
+			"type": "number",
+			"desc": "",
+			"sid": 663088544809560
+		},
+		{
+			"name": "NpcID",
+			"type": "number",
+			"desc": "",
+			"sid": 593502514943439
+		}
+	],
+	"behaviorTypes": [
+		{
+			"behaviorId": "solid",
+			"name": "Solid",
+			"sid": 307722035571534
+		}
+	],
+	"effectTypes": [],
+	"members": [
+		"NPC1",
+		"NPC2"
+	]
+}

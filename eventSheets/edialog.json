@@ -1,0 +1,756 @@
+{
+	"name": "eDialog",
+	"events": [
+		{
+			"eventType": "variable",
+			"name": "curDialog",
+			"type": "number",
+			"initialValue": "-1",
+			"comment": "The ID number of the current line of dialogue being displayed",
+			"isStatic": false,
+			"isConstant": false,
+			"sid": 259566995380522
+		},
+		{
+			"eventType": "variable",
+			"name": "curScene",
+			"type": "number",
+			"initialValue": "0",
+			"comment": "The ID number of the scene from which dialogue is being drawn",
+			"isStatic": false,
+			"isConstant": false,
+			"sid": 237050846164997
+		},
+		{
+			"eventType": "variable",
+			"name": "GameState",
+			"type": "string",
+			"initialValue": "",
+			"comment": "The state of the game - used to determine when dialogue is being shown",
+			"isStatic": false,
+			"isConstant": false,
+			"sid": 457074409100391
+		},
+		{
+			"eventType": "variable",
+			"name": "NextLine",
+			"type": "string",
+			"initialValue": "",
+			"comment": "Used for debugging - shows what the next line of dialogue will be",
+			"isStatic": false,
+			"isConstant": false,
+			"sid": 838002954998180
+		},
+		{
+			"eventType": "variable",
+			"name": "PlayerName",
+			"type": "string",
+			"initialValue": "Richi",
+			"comment": "An example variable to demonstrate using a replace expression to show variables in dialogue",
+			"isStatic": false,
+			"isConstant": false,
+			"sid": 440307245832633
+		},
+		{
+			"eventType": "variable",
+			"name": "typewriterFinished",
+			"type": "boolean",
+			"initialValue": "true",
+			"comment": "",
+			"isStatic": false,
+			"isConstant": false,
+			"sid": 937715999956576
+		},
+		{
+			"eventType": "group",
+			"disabled": false,
+			"title": "Dialog",
+			"description": "",
+			"isActiveOnStart": true,
+			"children": [
+				{
+					"eventType": "group",
+					"disabled": false,
+					"title": "Start",
+					"description": "",
+					"isActiveOnStart": true,
+					"children": [
+						{
+							"eventType": "comment",
+							"text": "Start: load json file with dialog "
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-start-of-layout",
+									"objectClass": "System",
+									"sid": 775932299920709
+								}
+							],
+							"actions": [
+								{
+									"id": "request-project-file",
+									"objectClass": "AJAX",
+									"sid": 155088860344906,
+									"parameters": {
+										"tag": "\"loaddialogue\"",
+										"file": "dialog1.json"
+									}
+								},
+								{
+									"id": "wait-for-previous-actions",
+									"objectClass": "System",
+									"sid": 403496359483032
+								},
+								{
+									"id": "parse",
+									"objectClass": "JSON",
+									"sid": 342489656607522,
+									"parameters": {
+										"data": "AJAX.LastData"
+									}
+								}
+							],
+							"sid": 860516501604776
+						}
+					],
+					"sid": 587396784355326
+				},
+				{
+					"eventType": "group",
+					"disabled": false,
+					"title": "Every Tick",
+					"description": "",
+					"isActiveOnStart": true,
+					"children": [
+						{
+							"eventType": "comment",
+							"text": "enable/disable Player control based on game state"
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"sid": 208352410039782,
+									"parameters": {
+										"variable": "GameState",
+										"comparison": 0,
+										"value": "\"dialog\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-enabled",
+									"objectClass": "fmPlayer",
+									"sid": 687409560655760,
+									"behaviorType": "8Direction2",
+									"parameters": {
+										"state": "disabled"
+									}
+								}
+							],
+							"sid": 581175350291994
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 145527664731404
+								}
+							],
+							"actions": [
+								{
+									"id": "set-enabled",
+									"objectClass": "fmPlayer",
+									"sid": 696516375530822,
+									"behaviorType": "8Direction2",
+									"parameters": {
+										"state": "enabled"
+									}
+								}
+							],
+							"sid": 341694236728161
+						},
+						{
+							"eventType": "comment",
+							"text": "check if current dialog typewriter has finished"
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-typewriter-text-finished",
+									"objectClass": "txtDialog",
+									"sid": 423935083443831
+								}
+							],
+							"actions": [
+								{
+									"id": "set-visible",
+									"objectClass": "ContinueDialogue",
+									"sid": 244090687259402,
+									"parameters": {
+										"visibility": "visible"
+									}
+								},
+								{
+									"id": "wait",
+									"objectClass": "System",
+									"sid": 632008878687000,
+									"parameters": {
+										"seconds": "0.2"
+									}
+								},
+								{
+									"id": "set-boolean-eventvar",
+									"objectClass": "System",
+									"sid": 743225967533900,
+									"parameters": {
+										"variable": "typewriterFinished",
+										"value": "true"
+									}
+								}
+							],
+							"sid": 398494456401031
+						}
+					],
+					"sid": 202257553072803
+				},
+				{
+					"eventType": "group",
+					"disabled": false,
+					"title": "Dialog control",
+					"description": "",
+					"isActiveOnStart": true,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-key-pressed",
+									"objectClass": "Keyboard",
+									"sid": 402421985181488,
+									"parameters": {
+										"key": 13
+									}
+								}
+							],
+							"actions": [],
+							"sid": 400272450028967,
+							"children": [
+								{
+									"eventType": "comment",
+									"text": "When the ENTER key is pressed and the player is overlapping an NPC object, the dialogue mechanism will be triggered"
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-overlapping-at-offset",
+											"objectClass": "Player",
+											"sid": 195352089480940,
+											"parameters": {
+												"object": "fmNPC",
+												"offset-x": "8",
+												"offset-y": "0"
+											}
+										},
+										{
+											"id": "is-overlapping-at-offset",
+											"objectClass": "Player",
+											"sid": 672863754053244,
+											"parameters": {
+												"object": "fmNPC",
+												"offset-x": "-8",
+												"offset-y": "0"
+											}
+										},
+										{
+											"id": "is-overlapping-at-offset",
+											"objectClass": "Player",
+											"sid": 818862796111420,
+											"parameters": {
+												"object": "fmNPC",
+												"offset-x": "0",
+												"offset-y": "8"
+											}
+										},
+										{
+											"id": "is-overlapping-at-offset",
+											"objectClass": "Player",
+											"sid": 919327479532029,
+											"parameters": {
+												"object": "fmNPC",
+												"offset-x": "0",
+												"offset-y": "-8"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 208262087900192,
+									"children": [
+										{
+											"eventType": "comment",
+											"text": "Start - set Gamestate to \"dialog\""
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-eventvar",
+													"objectClass": "System",
+													"sid": 482318295739933,
+													"parameters": {
+														"variable": "GameState",
+														"comparison": 0,
+														"value": "\"\""
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 825002669758740,
+													"parameters": {
+														"variable": "GameState",
+														"value": "\"dialog\""
+													}
+												},
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 624199368288210,
+													"parameters": {
+														"variable": "curScene",
+														"value": "fmNPC.TimesSpokenTo"
+													}
+												}
+											],
+											"sid": 515439936447683,
+											"isOrBlock": true
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-running-typewriter-text",
+													"objectClass": "txtDialog",
+													"sid": 400269427097014
+												},
+												{
+													"id": "compare-boolean-eventvar",
+													"objectClass": "System",
+													"sid": 388424150920671,
+													"parameters": {
+														"variable": "typewriterFinished"
+													},
+													"isInverted": true
+												}
+											],
+											"actions": [
+												{
+													"id": "typewriter-finish",
+													"objectClass": "txtDialog",
+													"sid": 847483363005937
+												}
+											],
+											"sid": 768877658656113
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-eventvar",
+													"objectClass": "System",
+													"sid": 664471989783686,
+													"parameters": {
+														"variable": "GameState",
+														"comparison": 0,
+														"value": "\"dialog\""
+													}
+												},
+												{
+													"id": "compare-boolean-eventvar",
+													"objectClass": "System",
+													"sid": 563056030614010,
+													"parameters": {
+														"variable": "typewriterFinished"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-boolean-eventvar",
+													"objectClass": "System",
+													"sid": 314138391943002,
+													"parameters": {
+														"variable": "typewriterFinished",
+														"value": "false"
+													}
+												},
+												{
+													"id": "add-to-eventvar",
+													"objectClass": "System",
+													"sid": 220971369609580,
+													"parameters": {
+														"variable": "curDialog",
+														"value": "1"
+													}
+												},
+												{
+													"callFunction": "DisplayDialogue",
+													"sid": 475500209277992,
+													"parameters": [
+														"curDialog",
+														"curScene"
+													]
+												}
+											],
+											"sid": 304834144216394,
+											"children": [
+												{
+													"eventType": "comment",
+													"text": "If the value for curDialogue is one larger than the number of lines in the specific dialogue, call the EndDialogue function"
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-eventvar",
+															"objectClass": "System",
+															"sid": 607028668656157,
+															"parameters": {
+																"variable": "curDialog",
+																"comparison": 0,
+																"value": "Functions.GetNumLines+1"
+															}
+														}
+													],
+													"actions": [
+														{
+															"callFunction": "EndDialogue",
+															"sid": 922208216237521,
+															"parameters": [
+																"fmNPC.UID"
+															]
+														}
+													],
+													"sid": 256978283286126
+												}
+											]
+										}
+									],
+									"isOrBlock": true
+								}
+							]
+						}
+					],
+					"sid": 571401346749982
+				},
+				{
+					"eventType": "group",
+					"disabled": false,
+					"title": "Dialog functions",
+					"description": "",
+					"isActiveOnStart": true,
+					"children": [
+						{
+							"functionName": "DisplayDialogue",
+							"functionDescription": "",
+							"functionCategory": "",
+							"functionReturnType": "none",
+							"functionIsAsync": false,
+							"functionParameters": [
+								{
+									"name": "dialogueID",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"sid": 728615528499880
+								},
+								{
+									"name": "sceneID",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"sid": 113648855584519
+								}
+							],
+							"eventType": "function-block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "set-layer-visible",
+									"objectClass": "System",
+									"sid": 654895984329851,
+									"parameters": {
+										"layer": "\"dialog\"",
+										"visibility": "visible"
+									}
+								},
+								{
+									"id": "set-visible",
+									"objectClass": "ContinueDialogue",
+									"sid": 687539595286767,
+									"parameters": {
+										"visibility": "invisible"
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 799635644086919,
+									"parameters": {
+										"variable": "NextLine",
+										"value": "JSON.Get(\"scene.\"& curScene & \".dialogs.\" & (curDialog+1) & \".line\")"
+									}
+								},
+								{
+									"id": "set-text",
+									"objectClass": "txtDialogNPCName",
+									"sid": 329083192695558,
+									"parameters": {
+										"text": "JSON.Get(\"scene.\"& curScene & \".dialogs.\" & curDialog & \".char\")"
+									}
+								},
+								{
+									"id": "typewriter-text",
+									"objectClass": "txtDialog",
+									"sid": 719487298102123,
+									"parameters": {
+										"text": "Functions.DialogueFormat(JSON.Get((((\"scene.\" & curScene) & \".dialogs.\") & curDialog) & \".line\"))",
+										"duration": "len(JSON.Get(\"scene.\"& curScene & \".dialogs.\" & curDialog &\".line\"))/32"
+									}
+								}
+							],
+							"sid": 550066913387023
+						},
+						{
+							"functionName": "DialogueFormat",
+							"functionDescription": "",
+							"functionCategory": "",
+							"functionReturnType": "string",
+							"functionIsAsync": false,
+							"functionParameters": [
+								{
+									"name": "ReplaceString",
+									"type": "string",
+									"initialValue": "",
+									"comment": "",
+									"sid": 298965433405850
+								}
+							],
+							"eventType": "function-block",
+							"conditions": [],
+							"actions": [],
+							"sid": 137443779821714,
+							"children": [
+								{
+									"eventType": "variable",
+									"name": "Line",
+									"type": "string",
+									"initialValue": "",
+									"comment": "",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 578814684700175
+								},
+								{
+									"eventType": "block",
+									"conditions": [],
+									"actions": [
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 765124258390764,
+											"parameters": {
+												"variable": "Line",
+												"value": "replace(ReplaceString,\"/br\",newline)"
+											}
+										},
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 992663307923795,
+											"parameters": {
+												"variable": "Line",
+												"value": "replace(Line,\"(b)\",\"[b]\")"
+											}
+										},
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 512676905642365,
+											"parameters": {
+												"variable": "Line",
+												"value": "replace(Line,\"(/b)\",\"[/b]\")"
+											}
+										},
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 493496374631713,
+											"parameters": {
+												"variable": "Line",
+												"value": "replace(Line,\"PlayerName\",PlayerName)"
+											}
+										},
+										{
+											"id": "set-function-return-value",
+											"objectClass": "Functions",
+											"sid": 145978853457702,
+											"parameters": {
+												"value": "Line"
+											}
+										}
+									],
+									"sid": 101664468653299
+								}
+							]
+						},
+						{
+							"functionName": "GetNumLines",
+							"functionDescription": "",
+							"functionCategory": "",
+							"functionReturnType": "number",
+							"functionIsAsync": false,
+							"functionParameters": [],
+							"eventType": "function-block",
+							"conditions": [],
+							"actions": [],
+							"sid": 948330521919666,
+							"children": [
+								{
+									"eventType": "variable",
+									"name": "numLines",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 581796919873774
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "for-each",
+											"objectClass": "JSON",
+											"sid": 604270917886052,
+											"parameters": {
+												"path": "\"scene.\" & curScene & \".dialogs\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "add-to-eventvar",
+											"objectClass": "System",
+											"sid": 829195122014491,
+											"parameters": {
+												"variable": "numLines",
+												"value": "1"
+											}
+										}
+									],
+									"sid": 661067342678143
+								},
+								{
+									"eventType": "block",
+									"conditions": [],
+									"actions": [
+										{
+											"id": "set-function-return-value",
+											"objectClass": "Functions",
+											"sid": 499921932871824,
+											"parameters": {
+												"value": "numLines-1"
+											}
+										}
+									],
+									"sid": 312450894878080
+								}
+							]
+						},
+						{
+							"functionName": "EndDialogue",
+							"functionDescription": "",
+							"functionCategory": "",
+							"functionReturnType": "none",
+							"functionIsAsync": false,
+							"functionParameters": [
+								{
+									"name": "NPCUID",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"sid": 892800758257522
+								}
+							],
+							"eventType": "function-block",
+							"conditions": [
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "fmNPC",
+									"sid": 756416300369685,
+									"parameters": {
+										"unique-id": "NPCUID"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-layer-visible",
+									"objectClass": "System",
+									"sid": 332693123954615,
+									"parameters": {
+										"layer": "\"dialog\"",
+										"visibility": "invisible"
+									}
+								},
+								{
+									"id": "add-to-instvar",
+									"objectClass": "fmNPC",
+									"sid": 783410793201047,
+									"parameters": {
+										"instance-variable": "TimesSpokenTo",
+										"value": "1"
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 197898483555499,
+									"parameters": {
+										"variable": "GameState",
+										"value": "\"\""
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 550701687712005,
+									"parameters": {
+										"variable": "curDialog",
+										"value": "-1"
+									}
+								}
+							],
+							"sid": 464732246854141
+						}
+					],
+					"sid": 331322125744627
+				}
+			],
+			"sid": 803756315294825
+		}
+	],
+	"sid": 149368447884591
+}

@@ -1,0 +1,59 @@
+[
+  {
+    "npcId": 0,
+    "npcName": "Richi",
+    "dialogs": [
+      {
+        "line": "Hallo Playername."
+      },
+      {
+        "line": "Das ist ein einfaches Dialogsystem. /brDas System lädt den Dialog aus einer JSON Datei und gibt diesen dann Zeile für Zeile hier wieder."
+      },
+      {
+        "line": "Durch eine Funktion kann der JSON Text auch (b)formatiert werden!(/b)"
+      },
+      {
+        "line": "Die Zeilenumbrüche und die andere Formatierung /brwird mit Hilfe der Funktion (b)FormatDialog(/b) im Dialog Eventsheet getätigt."
+      },
+      {
+        "line": "Schau mal was der andere NPC zu erzählen hat."
+      }
+    ]
+  },
+  {
+    "npcid": 1,
+    "npcName": "Sarah",
+    "dialogs": [
+      {
+        "line": "This is an example of another scene, some NPCs can have multiple conversations associated with them."
+      },
+      {
+        "line": "Now I'm going to test some replacing. If it works the next line should make sense."
+      },
+      {
+        "line": "Hello there PlayerName."
+      },
+      {
+        "line": "Well, that worked rather nicely."
+      },
+      {
+        "line": "Remember the function I mentioned earlier? (b)DialogueFormat?(/b) Well you can use that to replace bits of text with variables - try changing the global variable called Player Name and see what happens to my dialogue."
+      }
+    ]
+  },
+  {
+    "npcid": 2,
+    "npcName": "Simon",
+    "dialogs": [
+      {
+        "line": "I don't really have much to say."
+      },
+      {
+        "line": "I'm just here to show you that different NPCs can have their own conversations. "
+      },
+      {
+        "line": "Unlike Jessie over there, I've only got one thing to say."
+      }
+    ]
+  }
+]

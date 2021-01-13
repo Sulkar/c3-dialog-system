@@ -1,0 +1,17 @@
+{
+	"name": "fmPlayer",
+	"plugin-id": "Sprite",
+	"sid": 918729368670697,
+	"instanceVariables": [],
+	"behaviorTypes": [
+		{
+			"behaviorId": "EightDir",
+			"name": "8Direction2",
+			"sid": 672029999148850
+		}
+	],
+	"effectTypes": [],
+	"members": [
+		"Player"
+	]
+}
