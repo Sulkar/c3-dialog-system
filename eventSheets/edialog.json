@@ -6,7 +6,7 @@
 			"name": "curDialog",
 			"type": "number",
 			"initialValue": "0",
-			"comment": "The ID number of the current line of dialogue being displayed",
+			"comment": "The ID number of the current line of dialog being displayed",
 			"isStatic": false,
 			"isConstant": false,
 			"sid": 259566995380522
@@ -26,7 +26,7 @@
 			"name": "GameState",
 			"type": "string",
 			"initialValue": "",
-			"comment": "The state of the game - used to determine when dialogue is being shown",
+			"comment": "The state of the game - used to determine when dialog is being shown",
 			"isStatic": false,
 			"isConstant": false,
 			"sid": 457074409100391
@@ -36,7 +36,7 @@
 			"name": "PlayerName",
 			"type": "string",
 			"initialValue": "Richi",
-			"comment": "An example variable to demonstrate using a replace expression to show variables in dialogue",
+			"comment": "An example variable to demonstrate using a replace expression to show variables in dialog",
 			"isStatic": false,
 			"isConstant": false,
 			"sid": 440307245832633
@@ -50,6 +50,10 @@
 			"isStatic": false,
 			"isConstant": false,
 			"sid": 937715999956576
+		},
+		{
+			"eventType": "comment",
+			"text": "The Dialog system requires:\n- a Player family and a NPC family\n- AJAX, JSON, Keyboard plugins"
 		},
 		{
 			"eventType": "group",
@@ -85,7 +89,7 @@
 									"sid": 471583710351218,
 									"parameters": {
 										"tag": "\"loaddialogue\"",
-										"file": "dialog2.json"
+										"file": "dialog1.json"
 									}
 								},
 								{
@@ -243,7 +247,7 @@
 									"conditions": [
 										{
 											"id": "is-overlapping-at-offset",
-											"objectClass": "Player",
+											"objectClass": "fmPlayer",
 											"sid": 195352089480940,
 											"parameters": {
 												"object": "fmNPC",
@@ -253,7 +257,7 @@
 										},
 										{
 											"id": "is-overlapping-at-offset",
-											"objectClass": "Player",
+											"objectClass": "fmPlayer",
 											"sid": 672863754053244,
 											"parameters": {
 												"object": "fmNPC",
@@ -263,7 +267,7 @@
 										},
 										{
 											"id": "is-overlapping-at-offset",
-											"objectClass": "Player",
+											"objectClass": "fmPlayer",
 											"sid": 818862796111420,
 											"parameters": {
 												"object": "fmNPC",
@@ -273,7 +277,7 @@
 										},
 										{
 											"id": "is-overlapping-at-offset",
-											"objectClass": "Player",
+											"objectClass": "fmPlayer",
 											"sid": 919327479532029,
 											"parameters": {
 												"object": "fmNPC",
@@ -398,7 +402,7 @@
 											"children": [
 												{
 													"eventType": "comment",
-													"text": "If the value for curDialogue is one larger than the number of lines in the specific dialogue, call the EndDialogue function"
+													"text": "If the value for curDialog is one larger than the number of lines in the specific dialog, call the EndDialog function"
 												},
 												{
 													"eventType": "block",
